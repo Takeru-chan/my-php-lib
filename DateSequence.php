@@ -1,11 +1,10 @@
 <?php
 /*
-# DateSequence.php ver.0.1.0  2018.4.17  (c)Takeru.
+# DateSequence.php ver.0.2.0  2018.4.18  (c)Takeru.
 #
 # 指定年月のDatetimeクラスの拡張日付セット配列を生成
 # 日付セットは指定年月の前後を含むことがあり、全部で42日（６週分）の配列
 # getDate($index)で指定インデックスのDatetimeXクラスを返す
-#   0~41以外の値を入力すると落ちる件は対策検討中
 # getDate('curr')は指定年月（実行日ではない）初日のDatetimeXクラスを返す
 # getDate('prev')は指定年月前月の初日のDatetimeXクラスを返す
 # getDate('next')は指定年月翌月の初日のDatetimeXクラスを返す
@@ -50,10 +49,10 @@ class Datetimex extends Datetime {
 class DateSequence {
   private $dateTime;
   private $dateSequence;
-  function __construct($year, $month) {
+  function __construct($year = 0, $month = 0) {
     $this->dateTime['now'] = (new Datetimex())->setTime(0,0);
-    $year = ($year > 1900 && $year < 10000) ? $year : $now->format('Y');
-    $month = ($month > 0 && $month < 13) ? $month : $now->format('n');
+    $year = ($year > 1900 && $year < 10000) ? $year : $this->dateTime['now']->format('Y');
+    $month = ($month > 0 && $month < 13) ? $month : $this->dateTime['now']->format('n');
     $this->dateTime['curr'] = new Datetimex($year."-".$month."-1");
     $date = (clone $this->dateTime['curr'])->modify('-1 days');
     $this->dateTime['prev'] = new Datetimex($date->format('Y')."-".$date->format('n')."-1");
@@ -80,7 +79,7 @@ class DateSequence {
     }
   }
   function getDate($index) {
-    if (is_int($index)) {
+    if (is_int($index) && ($index >= 0 && $index <= 41)) {
       return $this->dateSequence[$index];
     } elseif ($index == 'curr' || $index == 'prev' || $index == 'next') {
       return $this->dateTime[$index];
