@@ -19,6 +19,8 @@ DatetimeXクラスとともに使用して、前月/翌月や当日か否か、�
 - getDate('prev') - クラス生成指定年月前月の初日のDatetimeXクラスを返す  
 - getDate('next') - クラス生成指定年月翌月の初日のDatetimeXクラスを返す  
 
+アプリケーションサンプル：WebCal.php  
+
 ## DatetimeX
 DateSequenceクラス用のDatetime拡張クラス。  
 
