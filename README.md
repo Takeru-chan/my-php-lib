@@ -1,4 +1,4 @@
-# My personal PHP libary
+# My personal PHP library
 簡単なPHPのライブラリ集です。  
 
 ## LineData.php
@@ -18,8 +18,7 @@ DatetimeXクラスとともに使用して、前月/翌月や当日か否か、�
 - getDate('curr') - クラス生成指定年月（実行日ではない）初日のDatetimeXクラスを返す  
 - getDate('prev') - クラス生成指定年月前月の初日のDatetimeXクラスを返す  
 - getDate('next') - クラス生成指定年月翌月の初日のDatetimeXクラスを返す  
-
-アプリケーションサンプル：[WebCal.php](http://nevertoolate.date/WebCal.php)  
+- setHoliday($array) - 指定日のDatetimeXクラスのstatus['holiday']をセット/リセットする
 
 ## DatetimeX
 DateSequenceクラス用のDatetime拡張クラス。  
@@ -28,6 +27,13 @@ DateSequenceクラス用のDatetime拡張クラス。
   status['range'] : 指定年月の日付 = 0, 指定年月前月の日付 = -1, 指定年月翌月の日付 = 1  
   status['today'] : 実行日当日 = 1, それ以外 = 0  
   status['holiday] : 休日 = 1, 平日 = 0（メソッド未実装）  
+
+## Application sample
+LineData.phpとDateSequence.phpを使用したアプリケーションサンプル。
+休日設定ファイルのholiday.yyyyに従って休日表示をする万年Webカレンダー。
+詳細は設定ファイルのコメント参照。  
+
+[WebCal.php](http://nevertoolate.date/WebCal.php)  
 
 ## License
 This script has released under the MIT license.  

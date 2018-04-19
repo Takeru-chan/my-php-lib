@@ -1,7 +1,7 @@
-﻿<!doctype html>
+<!doctype html>
 <!--
-# WebCal.php ver.1.0.0  2018.4.19  (c)Takeru.
-# DateSequence.php ライブラリ利用サンプル
+# WebCal.php ver.1.1.0  2018.4.19  (c)Takeru.
+# DateSequence.php, LineData.php ライブラリ利用サンプル
 # ライブラリファイルは同一ディレクトリに配置のこと
 #
 #        Copyright (c) 2018 Takeru.
@@ -38,11 +38,18 @@ echo $style;
 <?php
 date_default_timezone_set('Asia/Tokyo');
 include_once('./DateSequence.php');
+include_once('./LineData.php');
 $now = new Datetime;
 $year = ($_GET['year'] != '') ? $_GET['year'] : $now->format('Y');
 $month = ($_GET['month'] != '') ? $_GET['month'] : $now->format('n');
 $week = $now->format('W');
 $cal = new DateSequence($year,$month);
+$hol_file = new LineData("holiday.".$year);
+if ($hol_file->getStatus()) {
+  $hol_array = $hol_file->getLines();
+  $array = explode(',', $hol_array[$month - 1]);
+  $cal->setHoliday($array);
+}
 echo "<div class='flex'><p><a href='?year=".$cal->getDate('prev')->format('Y')."&month=".$cal->getDate('prev')->format('n')."'>&laquo;&nbsp;Prev</a></p>";
 echo "<p>".$cal->getDate('curr')->format('F')." ".$cal->getDate('curr')->format('Y')."</p>";
 echo "<p><a href='?year=".$cal->getDate('next')->format('Y')."&month=".$cal->getDate('next')->format('n')."'>Next&nbsp;&raquo;</a></p></div>";
@@ -56,6 +63,8 @@ for ($i=0;$i<6;$i++) {
       echo "<td class='nocurr'>";
     } elseif ($status['today'] == 1) {
       echo "<td id='today'>";
+    } elseif ($status['holiday'] == 1) {
+      echo "<td class='holiday'>";
     } else {
       echo "<td>";
     }
